@@ -10,6 +10,6 @@ class MahasiswaController extends Controller
     {
         $mahasiswa = Mahasiswa::all();
 
-        return view('index', compact('mahasiswa'));
+        return view('mahasiswa.index', compact('mahasiswa'));
     }
 }
