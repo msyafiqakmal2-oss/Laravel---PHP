@@ -141,6 +141,19 @@
             table {
                 min-width: 600px;
             }
+            .btn-edit{
+                 background:#f59e0b;
+                 color:white;
+                 text-decoration:none;
+                  padding:8px 14px;
+                  border-radius:8px;
+                  font-size:14px;
+                  font-weight:bold;
+}
+
+.btn-edit:hover{
+    background:#d97706;
+}
         }
     </style>
 </head>
@@ -178,10 +191,11 @@
 
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>NIM</th>
-                            <th>Jurusan</th>
+                          <th>No</th>
+                                 <th>Nama</th>
+                              <th>NIM</th>
+                              <th>Jurusan</th>
+                              <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -189,23 +203,29 @@
 
                         @foreach ($mahasiswa as $index => $m)
 
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
+                             <tr>
+                                  <td>{{ $index + 1 }}</td>
 
                                 <td>
-                                    <strong>{{ $m->nama }}</strong>
+                                   <strong>{{ $m->nama }}</strong>
                                 </td>
 
-                                <td>
-                                    {{ $m->nim }}
-                                </td>
+                                 <td>
+                                       {{ $m->nim }}
+                                  </td>
 
-                                <td>
+                                   <td>
                                     <span class="badge">
-                                        {{ $m->jurusan }}
+                                   {{ $m->jurusan }}
                                     </span>
                                 </td>
-                            </tr>
+
+        <td>
+            <a href="/mahasiswa/{{ $m->id }}/edit" class="btn-edit">
+                Edit
+            </a>
+        </td>
+    </tr>
 
                         @endforeach
 

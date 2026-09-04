@@ -13,24 +13,52 @@ class MahasiswaController extends Controller
 
         return view('mahasiswa.index', compact('mahasiswa'));
     }
+
     public function create()
-{
-    return view('mahasiswa.create');
-}
-public function store(Request $request)
-{
-    $request->validate([
-        'nama' => 'required',
-        'nim' => 'required|unique:mahasiswa,nim',
-        'jurusan' => 'required',
-    ]);
+    {
+        return view('mahasiswa.create');
+    }
 
-    Mahasiswa::create([
-        'nama' => $request->nama,
-        'nim' => $request->nim,
-        'jurusan' => $request->jurusan,
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'nim' => 'required|unique:mahasiswa,nim',
+            'jurusan' => 'required',
+        ]);
 
-    return redirect('/mahasiswa');
-}
+        Mahasiswa::create([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'jurusan' => $request->jurusan,
+        ]);
+
+        return redirect('/mahasiswa');
+    }
+
+    public function edit($id)
+    {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
+        return view('mahasiswa.edit', compact('mahasiswa'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required',
+            'nim' => 'required|unique:mahasiswa,nim,'.$id,
+            'jurusan' => 'required',
+        ]);
+
+        $mahasiswa->update([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'jurusan' => $request->jurusan,
+        ]);
+
+        return redirect('/mahasiswa');
+    }
 }
