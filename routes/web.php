@@ -12,3 +12,4 @@ Route::get('/mahasiswa/create', [MahasiswaController::class, 'create']);
 Route::post('/mahasiswa', [MahasiswaController::class, 'store']);
 Route::get('/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit']);
 Route::put('/mahasiswa/{id}', [MahasiswaController::class, 'update']);
+Route::delete('/mahasiswa/{id}', [MahasiswaController::class, 'destroy']);

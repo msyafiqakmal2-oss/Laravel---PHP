@@ -154,6 +154,21 @@
 .btn-edit:hover{
     background:#d97706;
 }
+.btn-hapus {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.btn-hapus:hover {
+    background: #b91c1c;
+}
         }
     </style>
 </head>
@@ -218,13 +233,22 @@
                                     <span class="badge">
                                    {{ $m->jurusan }}
                                     </span>
-                                </td>
+                            </td>
 
-        <td>
-            <a href="/mahasiswa/{{ $m->id }}/edit" class="btn-edit">
-                Edit
-            </a>
-        </td>
+       <td>
+    <a href="/mahasiswa/{{ $m->id }}/edit" class="btn-edit">
+        Edit
+    </a>
+
+    <form action="/mahasiswa/{{ $m->id }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit" class="btn-hapus">
+            Hapus
+        </button>
+    </form>
+</td>
     </tr>
 
                         @endforeach

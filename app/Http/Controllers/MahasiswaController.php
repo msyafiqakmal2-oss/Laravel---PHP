@@ -61,4 +61,12 @@ class MahasiswaController extends Controller
 
         return redirect('/mahasiswa');
     }
+    public function destroy($id)
+{
+    $mahasiswa = Mahasiswa::findOrFail($id);
+
+    $mahasiswa->delete();
+
+    return redirect('/mahasiswa');
+}
 }
