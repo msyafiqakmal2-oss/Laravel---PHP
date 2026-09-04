@@ -12,4 +12,8 @@ class MahasiswaController extends Controller
 
         return view('mahasiswa.index', compact('mahasiswa'));
     }
+    public function create()
+{
+    return view('mahasiswa.create');
+}
 }
