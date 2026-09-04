@@ -15,55 +15,84 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            color: #333;
+            background: #f1f5f9;
+            color: #1e293b;
         }
 
+        /* NAVBAR */
         .navbar {
             background: #1e293b;
             color: white;
-            padding: 20px 40px;
+            padding: 20px 50px;
         }
 
         .navbar h2 {
+            font-size: 24px;
             margin-bottom: 5px;
         }
 
+        .navbar p {
+            color: #cbd5e1;
+        }
+
+        /* CONTAINER */
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        .header {
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
         }
 
-        .header h1 {
+        .page-header h1 {
             font-size: 30px;
             margin-bottom: 8px;
         }
 
-        .header p {
+        .page-header p {
             color: #64748b;
         }
 
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        /* BUTTON */
+        .btn-tambah {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
+        .btn-tambah:hover {
+            background: #1d4ed8;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
         }
 
         th {
-            background: #f1f5f9;
-            text-align: left;
+            background: #f8fafc;
             padding: 15px;
+            text-align: left;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         td {
@@ -75,7 +104,9 @@
             background: #f8fafc;
         }
 
+        /* BADGE JURUSAN */
         .badge {
+            display: inline-block;
             background: #dbeafe;
             color: #1d4ed8;
             padding: 6px 12px;
@@ -83,33 +114,68 @@
             font-size: 14px;
         }
 
+        /* EMPTY */
         .empty {
             text-align: center;
             padding: 30px;
             color: #64748b;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 20px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <div class="navbar">
-        <h2>Belajar Laravel</h2>
+        <h2>🎓 Belajar Laravel</h2>
         <p>Sistem Data Mahasiswa</p>
     </div>
 
+    <!-- CONTENT -->
     <div class="container">
 
-        <div class="header">
-            <h1>Data Mahasiswa</h1>
-            <p>Daftar mahasiswa yang tersimpan di database.</p>
+        <div class="page-header">
+
+            <div>
+                <h1>Data Mahasiswa</h1>
+                <p>Daftar mahasiswa yang tersimpan di database.</p>
+            </div>
+
+            <a href="/mahasiswa/create" class="btn-tambah">
+                + Tambah Mahasiswa
+            </a>
+
         </div>
 
+        <!-- TABLE CARD -->
         <div class="card">
 
             @if ($mahasiswa->count() > 0)
 
                 <table>
+
                     <thead>
                         <tr>
                             <th>No</th>
@@ -120,19 +186,31 @@
                     </thead>
 
                     <tbody>
+
                         @foreach ($mahasiswa as $index => $m)
+
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $m->nama }}</td>
-                                <td>{{ $m->nim }}</td>
+
+                                <td>
+                                    <strong>{{ $m->nama }}</strong>
+                                </td>
+
+                                <td>
+                                    {{ $m->nim }}
+                                </td>
+
                                 <td>
                                     <span class="badge">
                                         {{ $m->jurusan }}
                                     </span>
                                 </td>
                             </tr>
+
                         @endforeach
+
                     </tbody>
+
                 </table>
 
             @else
@@ -148,4 +226,4 @@
     </div>
 
 </body>
-</html>=
+</html>
