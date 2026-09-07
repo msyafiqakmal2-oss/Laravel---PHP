@@ -13,6 +13,80 @@
             box-sizing: border-box;
         }
 
+        /* =================================
+   CUSTOM CURSOR
+================================= */
+
+        .cursor-dot {
+    position: fixed;
+
+    width: 7px;
+    height: 7px;
+
+    background: #2563eb;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 10001;
+
+    transform: translate(-50%, -50%);
+
+    left: 0;
+    top: 0;
+}
+
+        .cursor-ring {
+    position: fixed;
+
+    width: 35px;
+    height: 35px;
+
+    border: 1px solid #111827;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 10000;
+
+    transform: translate(-50%, -50%);
+
+    left: 0;
+    top: 0;
+
+    transition:
+        width 0.3s ease,
+        height 0.3s ease,
+        background 0.3s ease,
+        border 0.3s ease;
+}
+
+/* ketika hover elemen interaktif */
+
+.cursor-ring.active {
+    width: 65px;
+    height: 65px;
+
+    background: rgba(37, 99, 235, 0.08);
+
+    border-color: #2563eb;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (hover: none) {
+
+    .cursor-dot,
+    .cursor-ring {
+        display: none;
+    }
+
+}
         html {
             scroll-behavior: smooth;
         }
@@ -496,7 +570,9 @@
 </head>
 
 <body>
-
+        {{-- CUSTOM CURSOR --}}
+        <div class="cursor-dot"></div>
+        <div class="cursor-ring"></div>
 
     {{-- =================================
          PRELOADER
@@ -700,8 +776,96 @@
         });
 
     </script>
+    <script>
+
+/* =================================
+   CUSTOM CURSOR
+================================= */
+
+const cursorDot = document.querySelector(".cursor-dot");
+const cursorRing = document.querySelector(".cursor-ring");
+
+if (cursorDot && cursorRing) {
+
+    const dotX = gsap.quickTo(
+        cursorDot,
+        "x",
+        {
+            duration: 0.15,
+            ease: "power3"
+        }
+    );
+
+    const dotY = gsap.quickTo(
+        cursorDot,
+        "y",
+        {
+            duration: 0.15,
+            ease: "power3"
+        }
+    );
 
 
+    const ringX = gsap.quickTo(
+        cursorRing,
+        "x",
+        {
+            duration: 0.45,
+            ease: "power3"
+        }
+    );
+
+    const ringY = gsap.quickTo(
+        cursorRing,
+        "y",
+        {
+            duration: 0.45,
+            ease: "power3"
+        }
+    );
+
+
+    window.addEventListener("mousemove", (e) => {
+
+        dotX(e.clientX);
+        dotY(e.clientY);
+
+        ringX(e.clientX);
+        ringY(e.clientY);
+
+    });
+
+
+    /*
+    =================================
+    HOVER INTERACTION
+    =================================
+    */
+
+    const interactiveElements = document.querySelectorAll(
+        "a, button, .badge"
+    );
+
+
+    interactiveElements.forEach((element) => {
+
+        element.addEventListener("mouseenter", () => {
+
+            cursorRing.classList.add("active");
+
+        });
+
+
+        element.addEventListener("mouseleave", () => {
+
+            cursorRing.classList.remove("active");
+
+        });
+
+    });
+
+}
+</script>
     @yield('script')
 
 </body>
