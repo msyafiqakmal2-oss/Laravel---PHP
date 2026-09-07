@@ -1,276 +1,311 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.app')
 
-    <title>Data Mahasiswa</title>
+@section('title', 'Mahasiswa — Laravel')
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+@section('content')
+
+<div class="container fade-up">
+
+    <div class="hero">
+
+        <div>
+            <p class="eyebrow">STUDENT MANAGEMENT SYSTEM</p>
+
+            <h1>
+                Data Mahasiswa
+                <span>.</span>
+            </h1>
+
+            <p class="description">
+                Kelola data mahasiswa dengan sistem Laravel
+                yang sederhana, modern, dan efisien.
+            </p>
+        </div>
+
+        <a href="/mahasiswa/create" class="btn-add">
+            + Tambah Mahasiswa
+        </a>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Jurusan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @forelse ($mahasiswa as $m)
+
+                <tr>
+
+                    <td>
+                        {{ $loop->iteration }}
+                    </td>
+
+                    <td class="nama">
+                        {{ $m->nama }}
+                    </td>
+
+                    <td>
+                        {{ $m->nim }}
+                    </td>
+
+                    <td>
+                        <span class="badge">
+                            {{ $m->jurusan }}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/mahasiswa/{{ $m->id }}/edit"
+                            class="btn-edit"
+                        >
+                            Edit
+                        </a>
+
+                        <form
+                            action="/mahasiswa/{{ $m->id }}"
+                            method="POST"
+                            style="display:inline;"
+                            onsubmit="return confirm('Yakin ingin menghapus data {{ $m->nama }}?');"
+                        >
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="btn-delete">
+                                Hapus
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                @empty
+
+                <tr>
+                    <td colspan="5" class="empty">
+                        Belum ada data mahasiswa.
+                    </td>
+                </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+@endsection
+
+
+@section('style')
+
+<style>
+
+    .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .eyebrow {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        color: #6b7280;
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        font-size: clamp(45px, 7vw, 85px);
+        line-height: 0.95;
+        letter-spacing: -5px;
+        font-weight: 800;
+    }
+
+    h1 span {
+        color: #2563eb;
+    }
+
+    .description {
+        max-width: 500px;
+        margin-top: 25px;
+        color: #6b7280;
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    /* BUTTON */
+
+    .btn-add {
+        background: #111827;
+        color: white;
+
+        padding: 15px 22px;
+
+        border-radius: 50px;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        transition: 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .btn-add:hover {
+        background: #2563eb;
+        transform: translateY(-4px);
+    }
+
+    /* TABLE */
+
+    .table-wrapper {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.06);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: left;
+
+        background: #111827;
+        color: white;
+
+        padding: 20px;
+
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    td {
+        padding: 20px;
+
+        border-bottom: 1px solid #eeeeee;
+
+        font-size: 14px;
+    }
+
+    tbody tr {
+        transition: 0.3s ease;
+    }
+
+    tbody tr:hover {
+        background: #f8fafc;
+        transform: scale(1.005);
+    }
+
+    .nama {
+        font-weight: 700;
+    }
+
+    .badge {
+        display: inline-block;
+
+        background: #eff6ff;
+        color: #2563eb;
+
+        padding: 7px 12px;
+
+        border-radius: 50px;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* ACTION */
+
+    .btn-edit {
+        color: #2563eb;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .btn-edit:hover {
+        text-decoration: underline;
+    }
+
+    .btn-delete {
+        border: none;
+
+        background: #fee2e2;
+        color: #dc2626;
+
+        padding: 8px 13px;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.3s ease;
+    }
+
+    .btn-delete:hover {
+        background: #dc2626;
+        color: white;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 50px;
+        color: #9ca3af;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 768px) {
+
+        .hero {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
+        h1 {
+            letter-spacing: -3px;
         }
 
-        /* NAVBAR */
-        .navbar {
-            background: #1e293b;
-            color: white;
-            padding: 20px 50px;
+        .table-wrapper {
+            overflow-x: auto;
         }
 
-        .navbar h2 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .navbar p {
-            color: #cbd5e1;
-        }
-
-        /* CONTAINER */
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* HEADER */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .page-header h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .page-header p {
-            color: #64748b;
-        }
-
-        /* BUTTON */
-        .btn-tambah {
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .btn-tambah:hover {
-            background: #1d4ed8;
-        }
-
-        /* CARD */
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        /* TABLE */
         table {
-            width: 100%;
-            border-collapse: collapse;
+            min-width: 700px;
         }
+    }
 
-        th {
-            background: #f8fafc;
-            padding: 15px;
-            text-align: left;
-            color: #475569;
-            border-bottom: 2px solid #e2e8f0;
-        }
+</style>
 
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        tr:hover {
-            background: #f8fafc;
-        }
-
-        /* BADGE JURUSAN */
-        .badge {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1d4ed8;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        /* EMPTY */
-        .empty {
-            text-align: center;
-            padding: 30px;
-            color: #64748b;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 700px) {
-
-            .navbar {
-                padding: 20px;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .card {
-                overflow-x: auto;
-            }
-
-            table {
-                min-width: 600px;
-            }
-            .btn-edit{
-                 background:#f59e0b;
-                 color:white;
-                 text-decoration:none;
-                  padding:8px 14px;
-                  border-radius:8px;
-                  font-size:14px;
-                  font-weight:bold;
-}
-
-.btn-edit:hover{
-    background:#d97706;
-}
-.btn-hapus {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.btn-hapus:hover {
-    background: #b91c1c;
-}
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <h2>🎓 Belajar Laravel</h2>
-        <p>Sistem Data Mahasiswa</p>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="container">
-
-        <div class="page-header">
-
-            <div>
-                <h1>Data Mahasiswa</h1>
-                <p>Daftar mahasiswa yang tersimpan di database.</p>
-            </div>
-
-            <a href="/mahasiswa/create" class="btn-tambah">
-                + Tambah Mahasiswa
-            </a>
-
-        </div>
-
-        <!-- TABLE CARD -->
-        <div class="card">
-
-            @if ($mahasiswa->count() > 0)
-
-                <table>
-
-                    <thead>
-                        <tr>
-                          <th>No</th>
-                                 <th>Nama</th>
-                              <th>NIM</th>
-                              <th>Jurusan</th>
-                              <th>Aksi</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @foreach ($mahasiswa as $index => $m)
-
-                             <tr>
-                                  <td>{{ $index + 1 }}</td>
-
-                                <td>
-                                   <strong>{{ $m->nama }}</strong>
-                                </td>
-
-                                 <td>
-                                       {{ $m->nim }}
-                                  </td>
-
-                                   <td>
-                                    <span class="badge">
-                                   {{ $m->jurusan }}
-                                    </span>
-                            </td>
-
-       <td>
-    <a href="/mahasiswa/{{ $m->id }}/edit" class="btn-edit">
-        Edit
-    </a>
-
-  <form action="/mahasiswa/{{ $m->id }}" method="POST" style="display:inline;"
-      onsubmit="return confirm('Yakin ingin menghapus data {{ $m->nama }}?');">
-
-    @csrf
-    @method('DELETE')
-
-    <button type="submit" class="btn-hapus">
-        Hapus
-    </button>
-
-</form>
-</td>
-    </tr>
-
-                        @endforeach
-
-                    </tbody>
-
-                </table>
-
-            @else
-
-                <div class="empty">
-                    Belum ada data mahasiswa.
-                </div>
-
-            @endif
-
-        </div>
-
-    </div>
-
-</body>
-</html>
+@endsection
