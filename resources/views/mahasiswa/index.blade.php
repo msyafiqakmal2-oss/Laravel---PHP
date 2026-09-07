@@ -240,14 +240,17 @@
         Edit
     </a>
 
-    <form action="/mahasiswa/{{ $m->id }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
+  <form action="/mahasiswa/{{ $m->id }}" method="POST" style="display:inline;"
+      onsubmit="return confirm('Yakin ingin menghapus data {{ $m->nama }}?');">
 
-        <button type="submit" class="btn-hapus">
-            Hapus
-        </button>
-    </form>
+    @csrf
+    @method('DELETE')
+
+    <button type="submit" class="btn-hapus">
+        Hapus
+    </button>
+
+</form>
 </td>
     </tr>
 
