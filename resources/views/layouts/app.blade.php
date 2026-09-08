@@ -632,9 +632,9 @@
     {{-- GSAP --}}
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script>
-
+    
         window.addEventListener("load", function () {
 
             const counter = {
@@ -866,7 +866,77 @@ if (cursorDot && cursorRing) {
 
 }
 </script>
-    @yield('script')
+<script>
+    /* =================================
+       CUSTOM CURSOR
+    ================================= */
+
+    const cursorDot = document.querySelector(".cursor-dot");
+    const cursorRing = document.querySelector(".cursor-ring");
+
+    if (cursorDot && cursorRing) {
+
+        const dotX = gsap.quickTo(
+            cursorDot,
+            "x",
+            {
+                duration: 0.15,
+                ease: "power3"
+            }
+        );
+
+        const dotY = gsap.quickTo(
+            cursorDot,
+            "y",
+            {
+                duration: 0.15,
+                ease: "power3"
+            }
+        );
+
+        const ringX = gsap.quickTo(
+            cursorRing,
+            "x",
+            {
+                duration: 0.45,
+                ease: "power3"
+            }
+        );
+
+        const ringY = gsap.quickTo(
+            cursorRing,
+            "y",
+            {
+                duration: 0.45,
+                ease: "power3"
+            }
+        );
+
+        window.addEventListener("mousemove", (e) => {
+            dotX(e.clientX);
+            dotY(e.clientY);
+            ringX(e.clientX);
+            ringY(e.clientY);
+        });
+
+        const interactiveElements =
+            document.querySelectorAll("a, button, .badge");
+
+        interactiveElements.forEach((element) => {
+
+            element.addEventListener("mouseenter", () => {
+                cursorRing.classList.add("active");
+            });
+
+            element.addEventListener("mouseleave", () => {
+                cursorRing.classList.remove("active");
+            });
+
+        });
+    }
+</script>
+
+@yield('script')
 
 </body>
 </html>

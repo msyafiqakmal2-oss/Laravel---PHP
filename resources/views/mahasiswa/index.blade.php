@@ -40,18 +40,23 @@
     {{-- DATA SECTION --}}
 
     <section>
+<div class="section-heading">
 
-        <div class="section-heading">
+    <h2>
+        Students<span>.</span>
+    </h2>
 
-            <h2>
-                Students<span>.</span>
-            </h2>
+    <p>
+        TOTAL
+        <span
+            class="student-counter"
+            data-count="{{ $mahasiswa->count() }}"
+        >
+            0
+        </span>
+    </p>
 
-            <p>
-                TOTAL {{ $mahasiswa->count() }}
-            </p>
-
-        </div>
+</div>
 
 
         <div class="table-wrapper">
@@ -75,7 +80,7 @@
 
                     @forelse ($mahasiswa as $m)
 
-                    <tr>
+                   <tr class="student-row">
 
                         <td>
                             {{ $loop->iteration }}
@@ -203,62 +208,82 @@
 
 @section('script')
 
+
 <script>
 
-    const magneticButtons =
-        document.querySelectorAll(".magnetic-btn");
+    // =========================
+    // STUDENT COUNTER
+    // =========================
 
+    const counterElement =
+        document.querySelector(".student-counter");
 
-    magneticButtons.forEach((button) => {
+    if (counterElement) {
 
-        const moveX = gsap.quickTo(
-            button,
-            "x",
-            {
-                duration: 0.4,
-                ease: "power3.out"
+        const target =
+            Number(counterElement.dataset.count);
+
+        const counter = {
+            value: 0
+        };
+
+        gsap.to(counter, {
+
+            value: target,
+
+            duration: 1.8,
+
+            ease: "power2.out",
+
+            scrollTrigger: {
+
+                trigger: counterElement,
+
+                start: "top 85%",
+
+                once: true
+
+            },
+
+            onUpdate: function () {
+
+                counterElement.textContent =
+                    Math.floor(counter.value);
+
             }
-        );
-
-
-        const moveY = gsap.quickTo(
-            button,
-            "y",
-            {
-                duration: 0.4,
-                ease: "power3.out"
-            }
-        );
-
-
-        button.addEventListener("mousemove", (e) => {
-
-            const rect =
-                button.getBoundingClientRect();
-
-
-            const x =
-                e.clientX -
-                (rect.left + rect.width / 2);
-
-
-            const y =
-                e.clientY -
-                (rect.top + rect.height / 2);
-
-
-            moveX(x * 0.25);
-
-            moveY(y * 0.25);
 
         });
 
+    }
 
-        button.addEventListener("mouseleave", () => {
 
-            moveX(0);
+    // =========================
+    // STUDENT ROW REVEAL
+    // =========================
 
-            moveY(0);
+    gsap.utils.toArray(".student-row").forEach((row, index) => {
+
+        gsap.from(row, {
+
+            y: 50,
+
+            opacity: 0,
+
+            duration: 0.8,
+
+            ease: "power3.out",
+
+            delay: index * 0.08,
+
+            scrollTrigger: {
+
+                trigger: row,
+
+                start: "top 90%",
+
+                once: true
+
+            }
 
         });
 
@@ -267,3 +292,4 @@
 </script>
 
 @endsection
+
