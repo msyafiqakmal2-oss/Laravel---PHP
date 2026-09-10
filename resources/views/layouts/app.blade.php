@@ -578,22 +578,18 @@
          PRELOADER
     ================================= --}}
 
+    @if (request()->is('mahasiswa'))
     <div class="preloader">
-
-        <div class="loader-number">
-            <span id="loaderCounter">0</span>%
+        <div class="loader-counter">
+            <span id="loaderCounter">0</span>
+            <span>%</span>
         </div>
 
-        <div class="loader-text">
-            LOADING STUDENT SYSTEM
+        <div class="loader-bar">
+            <div id="loaderProgress"></div>
         </div>
-
-        <div class="loader-line"></div>
-
-        <div class="loader-progress" id="loaderProgress"></div>
-
     </div>
-
+@endif
 
     {{-- =================================
          NAVBAR

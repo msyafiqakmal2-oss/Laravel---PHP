@@ -2,520 +2,102 @@
 
 @section('title', 'Tambah Mahasiswa — Laravel')
 
-@section('style')
-<style>
-    /* =================================
-       CREATE PAGE
-    ================================= */
-
-    .create-page {
-        min-height: calc(100vh - 80px);
-        padding: 80px 6vw 100px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* background grid */
-
-    .create-page::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.45;
-
-        background-image:
-            linear-gradient(to right, rgba(17, 24, 39, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(17, 24, 39, 0.05) 1px, transparent 1px);
-
-        background-size: 80px 80px;
-
-        mask-image: linear-gradient(
-            to bottom,
-            black 0%,
-            transparent 85%
-        );
-    }
-
-    .create-inner {
-        max-width: 1400px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 2;
-    }
-
-    /* =================================
-       TOP META
-    ================================= */
-
-    .create-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 55px;
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: #9ca3af;
-    }
-
-    .create-meta-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .meta-dot {
-        width: 7px;
-        height: 7px;
-        background: #2563eb;
-        border-radius: 50%;
-    }
-
-    /* =================================
-       HEADING
-    ================================= */
-
-    .create-heading {
-        max-width: 1000px;
-        margin-bottom: 80px;
-    }
-
-    .create-eyebrow {
-        font-size: 12px;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: #2563eb;
-        margin-bottom: 20px;
-        font-weight: 700;
-    }
-
-    .create-title {
-        margin: 0;
-        font-size: clamp(70px, 11vw, 170px);
-        line-height: 0.82;
-        letter-spacing: -9px;
-        font-weight: 800;
-        color: #111827;
-    }
-
-    .create-title span {
-        color: #2563eb;
-    }
-
-    .create-subtitle {
-        max-width: 520px;
-        margin-top: 35px;
-        font-size: 16px;
-        line-height: 1.7;
-        color: #6b7280;
-    }
-
-    /* =================================
-       FORM AREA
-    ================================= */
-
-    .form-layout {
-        display: grid;
-        grid-template-columns: 0.35fr 1fr;
-        gap: 70px;
-        align-items: start;
-    }
-
-    .form-side-number {
-        font-size: 12px;
-        letter-spacing: 3px;
-        color: #9ca3af;
-        padding-top: 12px;
-    }
-
-    .form-side-number strong {
-        display: block;
-        margin-bottom: 15px;
-        font-size: 70px;
-        line-height: 1;
-        letter-spacing: -5px;
-        color: #111827;
-    }
-
-    .form-side-number p {
-        max-width: 180px;
-        line-height: 1.6;
-        letter-spacing: 0;
-        text-transform: none;
-        font-size: 13px;
-        color: #9ca3af;
-    }
-
-    /* =================================
-       FORM CARD
-    ================================= */
-
-    .student-form {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid #e5e7eb;
-        padding: clamp(30px, 5vw, 70px);
-        position: relative;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.07);
-        backdrop-filter: blur(10px);
-    }
-
-    .student-form::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: #111827;
-    }
-
-    /* =================================
-       FORM GROUP
-    ================================= */
-
-    .form-group {
-        position: relative;
-        margin-bottom: 42px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 12px;
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: #6b7280;
-        font-weight: 700;
-    }
-
-    .input-wrap {
-        position: relative;
-    }
-
-    .input-number {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 12px;
-        color: #9ca3af;
-        font-weight: 700;
-        pointer-events: none;
-    }
-
-    .student-input {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid #d1d5db;
-        padding: 14px 0 16px 32px;
-        background: transparent;
-        outline: none;
-
-        font-family: inherit;
-        font-size: clamp(20px, 2vw, 28px);
-        color: #111827;
-
-        transition:
-            border-color 0.3s ease,
-            padding-left 0.3s ease;
-    }
-
-    .student-input::placeholder {
-        color: #d1d5db;
-    }
-
-    .student-input:focus {
-        border-color: #2563eb;
-        padding-left: 38px;
-    }
-
-    .input-line {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 0;
-        height: 2px;
-        background: #2563eb;
-        transition: width 0.4s ease;
-    }
-
-    .student-input:focus ~ .input-line {
-        width: 100%;
-    }
-
-    /* =================================
-       ERROR
-    ================================= */
-
-    .form-error {
-        margin-top: 10px;
-        font-size: 12px;
-        color: #dc2626;
-    }
-
-    /* =================================
-       BUTTON AREA
-    ================================= */
-
-    .form-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        margin-top: 60px;
-        padding-top: 30px;
-        border-top: 1px solid #e5e7eb;
-    }
-
-    .back-link {
-        color: #6b7280;
-        text-decoration: none;
-        font-size: 12px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        transition: color 0.3s ease;
-    }
-
-    .back-link:hover {
-        color: #111827;
-    }
-
-    .save-button {
-        border: none;
-        background: #111827;
-        color: white;
-        padding: 18px 30px;
-        min-width: 180px;
-
-        font-family: inherit;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-
-        transition:
-            transform 0.3s ease,
-            background 0.3s ease;
-    }
-
-    .save-button span {
-        position: relative;
-        z-index: 2;
-    }
-
-    .save-button::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: #2563eb;
-        transform: translateX(-101%);
-        transition: transform 0.4s ease;
-    }
-
-    .save-button:hover::before {
-        transform: translateX(0);
-    }
-
-    .save-button:hover {
-        transform: translateY(-4px);
-    }
-
-    /* =================================
-       FOOT NOTE
-    ================================= */
-
-    .create-footer {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 50px;
-        padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
-
-        font-size: 10px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: #9ca3af;
-    }
-
-    /* =================================
-       MOBILE
-    ================================= */
-
-    @media (max-width: 900px) {
-
-        .create-page {
-            padding: 60px 25px 80px;
-        }
-
-        .create-title {
-            letter-spacing: -5px;
-        }
-
-        .form-layout {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        .form-side-number {
-            display: none;
-        }
-
-        .student-form {
-            padding: 35px 25px;
-        }
-    }
-
-    @media (max-width: 600px) {
-
-        .create-meta {
-            margin-bottom: 40px;
-        }
-
-        .create-title {
-            font-size: 70px;
-            letter-spacing: -5px;
-        }
-
-        .create-subtitle {
-            font-size: 14px;
-        }
-
-        .form-actions {
-            flex-direction: column-reverse;
-            align-items: stretch;
-        }
-
-        .save-button {
-            width: 100%;
-        }
-
-        .back-link {
-            text-align: center;
-        }
-
-        .create-footer {
-            flex-direction: column;
-            gap: 10px;
-        }
-    }
-</style>
-@endsection
-
-
 @section('content')
 
 <div class="create-page">
 
-    <div class="create-inner">
-
-        {{-- =================================
-             META
-        ================================= --}}
-
-        <div class="create-meta reveal">
-
-            <div class="create-meta-left">
-                <span class="meta-dot"></span>
-                Student Management System
-            </div>
-
-            <div>
-                01 / 03
-            </div>
-
+    {{-- TOP META --}}
+    <div class="page-meta">
+        <div class="meta-left">
+            <span class="meta-dot"></span>
+            STUDENT MANAGEMENT SYSTEM
         </div>
 
+        <div class="meta-right">
+            01 / 03
+        </div>
+    </div>
 
-        {{-- =================================
-             HEADING
-        ================================= --}}
 
-        <div class="create-heading">
+    {{-- HERO --}}
+    <section class="create-hero">
 
-            <div class="create-eyebrow reveal">
-                New Student
-            </div>
-
-            <h1 class="create-title reveal">
-                TAMBAH<br>
-                DATA<span>.</span>
-            </h1>
-
-            <p class="create-subtitle reveal">
-                Tambahkan mahasiswa baru ke dalam
-                sistem pengelolaan data. Isi informasi
-                dengan lengkap sebelum menyimpan.
-            </p>
-
+        <div class="hero-label">
+            NEW STUDENT
         </div>
 
+        <h1 class="create-title">
+            TAMBAH<br>
+            DATA<span>.</span>
+        </h1>
 
-        {{-- =================================
-             FORM
-        ================================= --}}
+        <p class="create-description">
+            Tambahkan mahasiswa baru ke dalam sistem pengelolaan data.
+            Isi informasi dengan lengkap sebelum menyimpan.
+        </p>
 
-        <div class="form-layout">
+    </section>
 
-            <div class="form-side-number reveal">
 
-                <strong>01</strong>
+    {{-- FORM AREA --}}
+    <section class="form-section">
 
+        {{-- LEFT INFORMATION --}}
+        <div class="form-info">
+
+            <div class="info-number">
+                01
+            </div>
+
+            <div class="info-title">
                 STUDENT<br>
                 INFORMATION
-
-                <p>
-                    Data yang kamu masukkan
-                    akan tersimpan ke database
-                    mahasiswa.
-                </p>
-
             </div>
 
+            <p>
+                Data yang kamu masukkan
+                akan tersimpan ke database
+                mahasiswa.
+            </p>
 
-            <form
-                action="/mahasiswa"
-                method="POST"
-                class="student-form reveal"
-            >
+            <div class="info-line"></div>
+
+            <div class="info-circle"></div>
+
+        </div>
+
+
+        {{-- FORM CARD --}}
+        <div class="form-card">
+
+            <div class="form-top-line"></div>
+
+            <form action="/mahasiswa" method="POST">
 
                 @csrf
 
 
                 {{-- NAMA --}}
+                <div class="input-group">
 
-                <div class="form-group">
-
-                    <label for="nama">
-                        Nama Mahasiswa
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <span class="input-number">
-                            01
-                        </span>
-
-                        <input
-                            type="text"
-                            id="nama"
-                            name="nama"
-                            class="student-input"
-                            placeholder="Masukkan nama..."
-                            value="{{ old('nama') }}"
-                            autocomplete="name"
-                        >
-
-                        <span class="input-line"></span>
-
+                    <div class="input-label">
+                        <span>01</span>
+                        NAMA MAHASISWA
                     </div>
 
+                    <input
+                        type="text"
+                        name="nama"
+                        value="{{ old('nama') }}"
+                        placeholder="Masukkan nama..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <div class="input-line"></div>
+
                     @error('nama')
-                        <div class="form-error">
+                        <div class="error-message">
                             {{ $message }}
                         </div>
                     @enderror
@@ -524,35 +106,26 @@
 
 
                 {{-- NIM --}}
+                <div class="input-group">
 
-                <div class="form-group">
-
-                    <label for="nim">
-                        Nomor Induk Mahasiswa
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <span class="input-number">
-                            02
-                        </span>
-
-                        <input
-                            type="text"
-                            id="nim"
-                            name="nim"
-                            class="student-input"
-                            placeholder="Masukkan NIM..."
-                            value="{{ old('nim') }}"
-                            autocomplete="off"
-                        >
-
-                        <span class="input-line"></span>
-
+                    <div class="input-label">
+                        <span>02</span>
+                        NIM
                     </div>
 
+                    <input
+                        type="text"
+                        name="nim"
+                        value="{{ old('nim') }}"
+                        placeholder="Masukkan NIM..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <div class="input-line"></div>
+
                     @error('nim')
-                        <div class="form-error">
+                        <div class="error-message">
                             {{ $message }}
                         </div>
                     @enderror
@@ -561,35 +134,26 @@
 
 
                 {{-- JURUSAN --}}
+                <div class="input-group">
 
-                <div class="form-group">
-
-                    <label for="jurusan">
-                        Jurusan
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <span class="input-number">
-                            03
-                        </span>
-
-                        <input
-                            type="text"
-                            id="jurusan"
-                            name="jurusan"
-                            class="student-input"
-                            placeholder="Masukkan jurusan..."
-                            value="{{ old('jurusan') }}"
-                            autocomplete="off"
-                        >
-
-                        <span class="input-line"></span>
-
+                    <div class="input-label">
+                        <span>03</span>
+                        JURUSAN
                     </div>
 
+                    <input
+                        type="text"
+                        name="jurusan"
+                        value="{{ old('jurusan') }}"
+                        placeholder="Masukkan jurusan..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <div class="input-line"></div>
+
                     @error('jurusan')
-                        <div class="form-error">
+                        <div class="error-message">
                             {{ $message }}
                         </div>
                     @enderror
@@ -598,23 +162,19 @@
 
 
                 {{-- ACTION --}}
-
                 <div class="form-actions">
 
-                    <a
-                        href="/mahasiswa"
-                        class="back-link"
-                    >
-                        ← Kembali ke mahasiswa
+                    <a href="/mahasiswa" class="back-link">
+                        <span>←</span>
+                        KEMBALI KE MAHASISWA
                     </a>
 
                     <button
                         type="submit"
-                        class="save-button"
+                        class="save-button magnetic-btn"
                     >
-                        <span>
-                            Simpan Data →
-                        </span>
+                        <span>SIMPAN DATA</span>
+                        <strong>→</strong>
                     </button>
 
                 </div>
@@ -623,26 +183,551 @@
 
         </div>
 
-
-        {{-- =================================
-             FOOTER
-        ================================= --}}
-
-        <div class="create-footer">
-
-            <span>
-                Laravel Student System
-            </span>
-
-            <span>
-                Create / Student
-            </span>
-
-        </div>
-
-    </div>
+    </section>
 
 </div>
+
+@endsection
+
+
+@section('style')
+
+<style>
+
+/* =========================================
+   CREATE PAGE
+========================================= */
+
+.create-page {
+    min-height: 100vh;
+    padding: 35px 5.7% 100px;
+    position: relative;
+
+    background:
+        linear-gradient(
+            rgba(17, 24, 39, 0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(17, 24, 39, 0.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 40px 40px;
+}
+
+
+/* =========================================
+   META
+========================================= */
+
+.page-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #94a3b8;
+
+    margin-bottom: 55px;
+}
+
+.meta-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.meta-dot {
+    width: 7px;
+    height: 7px;
+
+    background: #2563eb;
+    border-radius: 50%;
+}
+
+.meta-right {
+    letter-spacing: 3px;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.create-hero {
+    max-width: 850px;
+    margin-bottom: 75px;
+}
+
+.hero-label {
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    color: #2563eb;
+
+    margin-bottom: 22px;
+}
+
+.create-title {
+    font-size: clamp(90px, 11vw, 180px);
+
+    line-height: 0.78;
+
+    letter-spacing: -7px;
+
+    font-weight: 800;
+
+    color: #111827;
+
+    margin: 0;
+}
+
+.create-title span {
+    color: #2563eb;
+}
+
+.create-description {
+    max-width: 520px;
+
+    margin-top: 42px;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    color: #64748b;
+}
+
+
+/* =========================================
+   FORM SECTION
+========================================= */
+
+.form-section {
+    display: grid;
+
+    grid-template-columns: 330px 1fr;
+
+    gap: 75px;
+
+    align-items: start;
+
+    max-width: 1360px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   LEFT INFO
+========================================= */
+
+.form-info {
+    position: relative;
+
+    min-height: 400px;
+
+    padding-top: 10px;
+}
+
+.info-number {
+    font-size: 68px;
+
+    line-height: 1;
+
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 20px;
+}
+
+.info-title {
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    color: #94a3b8;
+
+    line-height: 1.3;
+
+    margin-bottom: 14px;
+}
+
+.form-info p {
+    max-width: 190px;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    color: #94a3b8;
+}
+
+.info-line {
+    position: absolute;
+
+    width: 1px;
+    height: 170px;
+
+    background: #dbe1e8;
+
+    right: 45px;
+    top: 0;
+}
+
+.info-circle {
+    position: absolute;
+
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #334155;
+
+    border-radius: 50%;
+
+    right: 27px;
+    top: 55px;
+
+    background: #f8fafc;
+}
+
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.form-card {
+    position: relative;
+
+    background: rgba(255,255,255,0.92);
+
+    border: 1px solid #e2e8f0;
+
+    padding: 70px 70px 55px;
+
+    box-shadow:
+        25px 25px 70px rgba(15, 23, 42, 0.06);
+}
+
+.form-top-line {
+    position: absolute;
+
+    top: -1px;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: #111827;
+}
+
+.form-top-line::after {
+    content: "";
+
+    position: absolute;
+
+    left: 95px;
+    top: 0;
+
+    width: 7px;
+    height: 7px;
+
+    background: #2563eb;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.input-group {
+    margin-bottom: 55px;
+}
+
+.input-label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    color: #64748b;
+
+    margin-bottom: 24px;
+}
+
+.input-label span {
+    font-size: 11px;
+
+    color: #94a3b8;
+
+    letter-spacing: 0;
+}
+
+.input-group input {
+    width: 100%;
+
+    border: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    font-size: 28px;
+
+    font-family: inherit;
+
+    color: #111827;
+
+    padding: 0 0 15px;
+}
+
+.input-group input::placeholder {
+    color: #cbd5e1;
+}
+
+.input-line {
+    width: 100%;
+    height: 1px;
+
+    background: #cbd5e1;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.input-line::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 2px;
+
+    background: #2563eb;
+
+    transition: width 0.8s cubic-bezier(.16,1,.3,1);
+}
+
+.input-group:focus-within .input-line::after {
+    width: 100%;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-message {
+    margin-top: 10px;
+
+    font-size: 12px;
+
+    color: #dc2626;
+}
+
+
+/* =========================================
+   ACTION
+========================================= */
+
+.form-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+.back-link {
+    text-decoration: none;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    transition: color 0.5s ease;
+}
+
+.back-link span {
+    margin-right: 8px;
+
+    font-size: 16px;
+}
+
+.back-link:hover {
+    color: #111827;
+}
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
+
+.save-button {
+    border: 0;
+
+    background: #111827;
+
+    color: white;
+
+    padding: 19px 27px;
+
+    min-width: 190px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    transition:
+        background 0.5s ease,
+        transform 0.5s cubic-bezier(.16,1,.3,1);
+}
+
+.save-button strong {
+    font-size: 17px;
+
+    font-weight: 400;
+
+    color: #60a5fa;
+
+    transition: transform 0.5s ease;
+}
+
+.save-button:hover {
+    background: #1e293b;
+}
+
+.save-button:hover strong {
+    transform: translateX(7px);
+}
+
+
+/* =========================================
+   SLOW MOTION INITIAL STATE
+========================================= */
+
+.create-hero,
+.form-info,
+.form-card {
+    opacity: 0;
+    transform: translateY(70px);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .create-page {
+        padding: 30px 6% 70px;
+    }
+
+    .create-title {
+        font-size: clamp(70px, 16vw, 130px);
+        letter-spacing: -4px;
+    }
+
+    .form-section {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+    .form-info {
+        min-height: auto;
+    }
+
+    .info-line,
+    .info-circle {
+        display: none;
+    }
+
+    .form-card {
+        padding: 45px 30px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .page-meta {
+        margin-bottom: 40px;
+    }
+
+    .create-title {
+        font-size: 72px;
+        letter-spacing: -3px;
+    }
+
+    .create-description {
+        font-size: 14px;
+    }
+
+    .form-card {
+        padding: 40px 22px;
+    }
+
+    .input-group input {
+        font-size: 22px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 25px;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+
+}
+
+</style>
 
 @endsection
 
@@ -650,96 +735,187 @@
 @section('script')
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-        if (typeof gsap === "undefined") {
-            return;
-        }
+document.addEventListener("DOMContentLoaded", function () {
 
-        /*
-        =================================
-        PAGE REVEAL
-        =================================
-        */
+    if (typeof gsap === "undefined") {
+        return;
+    }
 
-        gsap.from(".reveal", {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.12,
+
+    /*
+    ==========================================
+    CINEMATIC SLOW MOTION
+    ==========================================
+    */
+
+    const hero = document.querySelector(".create-hero");
+    const formInfo = document.querySelector(".form-info");
+    const formCard = document.querySelector(".form-card");
+
+
+    /*
+    HERO
+    */
+
+    if (hero) {
+
+        gsap.to(hero, {
+            opacity: 1,
+            y: 0,
+
+            duration: 1.8,
+
             ease: "power4.out"
         });
 
+    }
 
-        /*
-        =================================
-        INPUT FOCUS
-        =================================
-        */
 
-        const inputs = document.querySelectorAll(".student-input");
+    /*
+    LEFT INFORMATION
+    */
 
-        inputs.forEach((input) => {
+    if (formInfo) {
 
-            input.addEventListener("focus", () => {
+        gsap.to(formInfo, {
 
-                gsap.to(input, {
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
+            opacity: 1,
+            y: 0,
 
-            });
+            duration: 1.6,
+
+            delay: 0.35,
+
+            ease: "power4.out"
+
+        });
+
+    }
+
+
+    /*
+    FORM CARD
+    */
+
+    if (formCard) {
+
+        gsap.to(formCard, {
+
+            opacity: 1,
+            y: 0,
+
+            duration: 1.8,
+
+            delay: 0.55,
+
+            ease: "power4.out"
+
+        });
+
+    }
+
+
+    /*
+    INPUT REVEAL
+    */
+
+    gsap.utils.toArray(".input-group").forEach(function (input, index) {
+
+        gsap.from(input, {
+
+            opacity: 0,
+
+            y: 35,
+
+            duration: 1.3,
+
+            delay: 0.9 + (index * 0.18),
+
+            ease: "power3.out"
+
+        });
+
+    });
+
+
+    /*
+    BUTTON
+    */
+
+    const button = document.querySelector(".save-button");
+
+    if (button) {
+
+        gsap.from(button, {
+
+            opacity: 0,
+
+            y: 25,
+
+            duration: 1.2,
+
+            delay: 1.6,
+
+            ease: "power3.out"
+
+        });
+
+    }
+
+
+    /*
+    MAGNETIC BUTTON
+    */
+
+    const magneticButtons =
+        document.querySelectorAll(".magnetic-btn");
+
+
+    magneticButtons.forEach(function (button) {
+
+        const moveX = gsap.quickTo(button, "x", {
+            duration: 0.7,
+            ease: "power3.out"
+        });
+
+        const moveY = gsap.quickTo(button, "y", {
+            duration: 0.7,
+            ease: "power3.out"
+        });
+
+
+        button.addEventListener("mousemove", function (e) {
+
+            const rect =
+                button.getBoundingClientRect();
+
+            const x =
+                e.clientX -
+                (rect.left + rect.width / 2);
+
+            const y =
+                e.clientY -
+                (rect.top + rect.height / 2);
+
+
+            moveX(x * 0.18);
+            moveY(y * 0.18);
 
         });
 
 
-        /*
-        =================================
-        BUTTON MAGNETIC EFFECT
-        =================================
-        */
+        button.addEventListener("mouseleave", function () {
 
-        const button = document.querySelector(".save-button");
+            moveX(0);
+            moveY(0);
 
-        if (button) {
-
-            const moveX = gsap.quickTo(button, "x", {
-                duration: 0.4,
-                ease: "power3.out"
-            });
-
-            const moveY = gsap.quickTo(button, "y", {
-                duration: 0.4,
-                ease: "power3.out"
-            });
-
-            button.addEventListener("mousemove", (e) => {
-
-                const rect = button.getBoundingClientRect();
-
-                const x =
-                    e.clientX -
-                    (rect.left + rect.width / 2);
-
-                const y =
-                    e.clientY -
-                    (rect.top + rect.height / 2);
-
-                moveX(x * 0.18);
-                moveY(y * 0.18);
-
-            });
-
-            button.addEventListener("mouseleave", () => {
-
-                moveX(0);
-                moveY(0);
-
-            });
-
-        }
+        });
 
     });
+
+});
+
 </script>
 
 @endsection
