@@ -599,7 +599,24 @@
          NAVBAR
     ================================= --}}
 
-    
+    <nav class="navbar">
+
+        <a href="/mahasiswa" class="logo">
+            LARAVEL<span>.</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/mahasiswa">
+                Mahasiswa
+            </a>
+
+            <a href="/mahasiswa/create">
+                Tambah Data
+            </a>
+
+        </div>
+
     </nav>
 
 
